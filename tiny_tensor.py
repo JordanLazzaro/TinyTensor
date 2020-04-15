@@ -12,47 +12,63 @@ class TinyTensor():
     - grad: the local gradient of the tensor w.r.t. the graph
     - requires_grad: a boolean value dictating whether a 
                      gradient should be tracked for self
+                     (defaults to 'True')
     - prev_op: the previous operation that resulted in self
 
     All operations, built-in or otherwise, result in a new
     TinyTensor object with its 'data' field containing the
     result of the subsequent operation.
+
+
   """
   def __init__(self,
-               data,
+               data=[],
                grad=None,
                requires_grad=True,
                prev_op=None):
     
-    if not (isinstance(data, np.ndarray) or
-            isinstance(data, int) or
-            isinstance(data, float)):
-      raise Exception("Data Value Error")
+    if isinstance(data, np.ndaray):
+      self.data = data
+    elif (isinstance(data, float) or
+          isinstance(data, int) or
+          isinstance(data, list)):
+      self.data = np.array(data)
     else:
-       self.data = np.array(data)
+      raise TypeError("TinyTensor data must be initialized " +
+                      "with a value of type: int, float, " +
+                      "list, or np.array")
     
     self.data = data
     self.grad = grad
     self.requires_grad = requires_grad
     self.prev_op = prev_op
 
-  ######################
-  # Built-in Operators #
-  ######################
+  #####################################
+  # Built-in Operators for TinyTensor # 
+  #####################################
 
   def __add__(self, right):
     pass
 
-  def __radd__(self, right):
+  def __radd__(self, left):
     pass
 
   def __sub__(self, right):
     pass
 
+  def __rsub__(self, left):
+    pass
+
   def __mul__(self, right):
     pass
 
+  def __rmul__(self, left):
+    pass
+
   def __truediv__(self, right):
+    pass
+
+  def __rtruediv__(self, left):
     pass
 
   def __pow__(self, right):
@@ -70,23 +86,42 @@ class TinyTensor():
             requires_grad={self.requires_grad},\
             prev_op={self.prev_op})"
 
-  #########################
-  # TinyTensor Operations #
-  #########################
-  
-  def dot(self):
-    pass
+  #################################
+  # TinyTensor Interal Operations #
+  #################################
 
-  def exp(self):
-    pass
+  def dot(self, right):
+    if not isinstance(right, TinyTensor):
+      raise TypeError("Arguments must be of type TinyTensor")
 
-  def max(self):
-    pass
-
-  def log(self, base=np.e):
+  def backward(self):
     pass
 
 
-if __name__ == "__main__":
-  a = np.array([1, 2, 3])
-  print(isinstance(a, np.ndarray))
+##################################
+# TinyTensor External Operations #
+##################################
+
+def dot(left, right):
+  if not (isinstance(right, TinyTensor) and
+          isinstance(left, TinyTensor)):
+    raise TypeError("Arguments must be of type TinyTensor")
+
+def exp(tensor):
+  if not isinstance(tensor, TinyTensor):
+      raise TypeError("Arguments must be of type TinyTensor")
+
+def max(**kwargs):
+  pass
+
+def log(tensor, base=np.e):
+  if not isinstance(tensor, TinyTensor):
+      raise TypeError("Arguments must be of type TinyTensor")
+
+def sin(tensor):
+  if not isinstance(tensor, TinyTensor):
+      raise TypeError("Arguments must be of type TinyTensor")
+
+def cos(tensor):
+  if not isinstance(tensor, TinyTensor):
+      raise TypeError("Arguments must be of type TinyTensor")
