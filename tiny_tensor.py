@@ -27,7 +27,7 @@ class TinyTensor():
                requires_grad=True,
                prev_op=None):
     
-    if isinstance(data, np.ndaray):
+    if isinstance(data, np.ndarray):
       self.data = data
     elif (isinstance(data, float) or
           isinstance(data, int) or
@@ -51,19 +51,19 @@ class TinyTensor():
     pass
 
   def __radd__(self, left):
-    pass
+    self.__add__(left)
 
   def __sub__(self, right):
     pass
 
   def __rsub__(self, left):
-    pass
+    self.__sub__(left)
 
   def __mul__(self, right):
     pass
 
   def __rmul__(self, left):
-    pass
+    self.__mul__(left)
 
   def __truediv__(self, right):
     pass
@@ -72,6 +72,18 @@ class TinyTensor():
     pass
 
   def __pow__(self, right):
+    pass
+
+  def __imul__(self, right):
+    pass
+
+  def __iadd__(self, right):
+    pass
+
+  def __isub__(self, right):
+    pass
+
+  def __itruediv(self, right):
     pass
 
   def __repr__(self):
